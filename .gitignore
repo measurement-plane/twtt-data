@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+twtt_time_series.png
+twtt_time_series_smoothed.png
+twtt-results/
+*.egg-info/
+build/
+dist/
+/data/
+/config/
