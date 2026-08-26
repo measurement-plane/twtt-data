@@ -158,7 +158,9 @@ The notebook selects the latest `data/twtt_*.jsonl` file. It plots:
 
 It also produces a second four-panel figure using a 100-sample moving average.
 The elapsed-time axis automatically uses seconds, minutes, or hours according
-to the acquisition duration.
+to the acquisition duration. Its setup cell resolves the repository root and
+adds `src/` to Python's import path, so the notebook works whether Jupyter was
+started from the repository root or from `notebooks/`.
 
 Per-way time of flight is calculated as:
 
