@@ -136,6 +136,18 @@ class TwttClientTests(unittest.TestCase):
     def test_builds_the_same_schedule_as_gui(self):
         self.assertEqual(build_schedule(self.config["schedule"]), "now||")
 
+    def test_redirect_is_not_inserted_into_agent_schedule(self):
+        schedule = dict(self.config["schedule"])
+        schedule["options"] = ["redirect"]
+
+        self.assertEqual(build_schedule(schedule), "now||")
+
+    def test_non_storage_schedule_option_is_preserved(self):
+        schedule = dict(self.config["schedule"])
+        schedule["options"] = ["redirect", "5s"]
+
+        self.assertEqual(build_schedule(schedule), "now||5s")
+
     def test_stream_uses_mpclient_and_writes_gui_compatible_jsonl(self):
         with tempfile.TemporaryDirectory() as directory:
             client, fake = self.make_client(directory)

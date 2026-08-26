@@ -97,8 +97,17 @@ def build_schedule(schedule_config: Mapping[str, Any]) -> str:
             f"{schedule_config.get('end_minute') or '00'}:"
             f"{schedule_config.get('end_second') or '00'}"
         )
-    options = schedule_config.get("options") or []
-    return f"{start}|{end}|{'|'.join(options)}"
+    # ``redirect`` controls result storage and is passed separately through
+    # Measurement.configure(redirect_to_storage=...).  It is not part of the
+    # three-field agent schedule, whose last field is reserved for ``stream``
+    # or a periodicity such as ``1s``.  Including it produces an invalid
+    # schedule like ``now||redirect`` and the agent completes without a result.
+    schedule_options = [
+        str(option)
+        for option in (schedule_config.get("options") or [])
+        if option != "redirect"
+    ]
+    return f"{start}|{end}|{'|'.join(schedule_options)}"
 
 
 class _GuiJsonlWriter:
